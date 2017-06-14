@@ -6,6 +6,8 @@ Install composer and run
 composer install
 ```
 
+Create DB that was set during `composer install` command (by default it's push_demo with login and pass 'root')
+
 Run Symfony migrations
 ```
 php bin/console doctrine:migrations:migrate
