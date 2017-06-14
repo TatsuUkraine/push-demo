@@ -6,6 +6,11 @@ Install composer and run
 composer install
 ```
 
+Run Symfony migrations
+```
+php bin/console doctrine:migrations:migrate
+```
+
 Install npm and run
 ```
 npm install
