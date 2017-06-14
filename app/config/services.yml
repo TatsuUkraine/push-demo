@@ -1,0 +1,46 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+
+    app.api_controller:
+        class: PushDemo\AppBundle\Controller\ApiController
+        arguments:
+            - '@app.settings_manager'
+            - '@app.firebase_cloud_messaging'
+
+    app.example_controller:
+        class: PushDemo\AppBundle\Controller\ExampleController
+        calls:
+            - [setContainer, ["@service_container"]]
+
+    app.settings_manager:
+        class: PushDemo\AppBundle\Service\Manager\SettingsManager
+        arguments:
+            - '@app.settings_repository'
+
+    app.settings_repository:
+        class: PushDemo\AppBundle\Repository\SettingsRepository
+        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
+        arguments:
+            - PushDemo\AppBundle\Entity\Settings
+
+    app.firebase_serializer:
+            class: PushDemo\AppBundle\Library\Firebase\Serializer
+            arguments:
+                - '@serializer'
+
+    app.firebase_cloud_messaging:
+        class: PushDemo\AppBundle\Library\Firebase\CloudMessaging
+        arguments:
+            - '@guzzle.client.firebase_api'
+            - '@app.firebase_serializer'
+
+guzzle:
+    clients:
+        firebase_api:
+            base_url: '%fcm_base_uri%'
+            headers:
+                Authorization: 'key=%firebase_api_key%'

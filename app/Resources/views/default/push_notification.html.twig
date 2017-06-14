@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <label>
+            <input type="checkbox" name="subscribe" value="1" /> Subscribe
+        </label>
+    </div>
+    <div>
+        <a href="javascript:void(0);" class="send-push">Send Push</a>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/bundles/push.js"></script>
+{% endblock %}
